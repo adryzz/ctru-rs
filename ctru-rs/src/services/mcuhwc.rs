@@ -28,6 +28,13 @@ impl McuHwc {
         }
     }
 
+    pub fn write_led_pattern(&self, pattern: &[u8; 100]) -> crate::Result<()> {
+        unsafe {
+            ResultCode(ctru_sys::MCUHWC_WriteRegister(0x2D, std::mem::transmute(pattern), pattern.len() as u32))?;
+            Ok(())
+        }
+    }
+
     #[doc(alias = "MCUHWC_GetBatteryVoltage")]
     pub fn get_battery_voltage(&self) -> crate::Result<u8> {
         unsafe {
